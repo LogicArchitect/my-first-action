@@ -2,7 +2,6 @@ name: Daily Finance News
 
 on:
   schedule:
-    # UTC 23:00 = 北京时间 07:00
     - cron: '0 23 * * *'
   workflow_dispatch:
 
@@ -21,12 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests feedparser
+          pip install requests feedparser googletrans==4.0.0-rc1 yfinance
 
       - name: Run finance news script
         run: python finance_news.py
 
-      # ========== 以下已改为 QQ 邮箱配置 ==========
       - name: Send email
         uses: dawidd6/action-send-mail@v3
         with:
@@ -37,4 +35,5 @@ jobs:
           subject: 全球金融早报
           to: ${{ secrets.RECEIVER_EMAIL }}
           from: GitHub Actions
-          body: file://report.txt
+          body: file://report.html
+          content_type: text/html
