@@ -2,6 +2,7 @@ name: Daily Finance News
 
 on:
   schedule:
+    # UTC 23:00 = 北京时间 07:00
     - cron: '0 23 * * *'
   workflow_dispatch:
 
@@ -37,3 +38,5 @@ jobs:
           from: GitHub Actions
           body: file://report.html
           content_type: text/html
+          convert_markdown: false
+          ignore_errors: false
