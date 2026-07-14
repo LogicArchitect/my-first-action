@@ -1,0 +1,26 @@
+# 工作流的名称，会显示在 Actions 页面
+name: Daily Hello
+
+# 触发条件
+on:
+  # 定时触发：每天 UTC 00:00 执行（北京时间 08:00）
+  schedule:
+    - cron: '0 0 * * *'
+  # 手动触发：允许你随时点击运行测试
+  workflow_dispatch:
+
+# 要执行的任务
+jobs:
+  say-hello:
+    # 运行环境：使用最新的 Ubuntu Linux（免费）
+    runs-on: ubuntu-latest
+
+    # 任务步骤
+    steps:
+      # 步骤1：签出代码（把仓库里的文件下载到虚拟机）
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步骤2：执行一个简单的命令
+      - name: Say Hello
+        run: echo "Hello, World! 现在是 $(date)"
