@@ -26,10 +26,11 @@ jobs:
       - name: Run finance news script
         run: python finance_news.py
 
+      # ========== 以下已改为 QQ 邮箱配置 ==========
       - name: Send email
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.gmail.com
+          server_address: smtp.qq.com
           server_port: 465
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
