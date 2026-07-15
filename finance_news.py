@@ -169,19 +169,21 @@ def fetch_and_translate_news():
                         title_zh = title_en
                     news_list.append({
                         'title_zh': title_zh,
-                        'title_en': title_en,
-                        'link': entry.link,
-                        'source': feed.feed.title,
-                        'time': pub_time
                     })
                     time.sleep(0.3)
         except Exception as e:
             print(f"抓取 {feed_url} 失败: {e}")
 
-    sorted_news = sorted(news_list, key=lambda x: x['time'], reverse=True)[:12]
-    return sorted_news
+    # 去重
+    seen = set()
+    unique_news = []
+    for item in news_list:
+        if item['title_zh'] not in seen:
+            seen.add(item['title_zh'])
+            unique_news.append(item)
+    return unique_news[:15]
 
-# ============ 6. 生成纯文本报告（无分析） ============
+# ============ 6. 生成纯文本报告（无脚注） ============
 def generate_text_report(news_list, market_data):
     date_str = datetime.now().strftime('%Y年%m月%d日')
     lines = []
@@ -200,13 +202,10 @@ def generate_text_report(news_list, market_data):
         lines.append("📰 热点新闻")
         for i, item in enumerate(news_list, 1):
             lines.append(f"{i}. {item['title_zh']}")
-            lines.append(f"   来源: {item['source']}  {item['time'].strftime('%H:%M')}")
-            lines.append(f"   原文: {item['title_en']}")
-            lines.append("")
 
+    lines.append("")
     lines.append("=" * 60)
-    lines.append("本简报由 GitHub Actions 自动生成 · 不构成投资建议")
-    lines.append("数据来源：路透社、彭博社、金融时报、经济学人")
+    # 不再添加任何脚注文字
     return "\n".join(lines)
 
 # ============ 主函数 ============
