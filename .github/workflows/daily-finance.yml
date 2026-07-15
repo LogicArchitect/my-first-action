@@ -36,7 +36,6 @@ jobs:
           subject: 全球金融早报
           to: ${{ secrets.RECEIVER_EMAIL }}
           from: GitHub Actions
-          body: file://report.html
-          content_type: text/html
+          body: file://report.txt
           convert_markdown: false
           ignore_errors: false
